@@ -17,14 +17,6 @@
 
 #include <icdf.hpp>
 
-/* Lag test controller ult mode
-*
-* Core 1: acts as a controller; initially select port 1 and accept, wait for a few secs then start the lag test (set a flag in the bridge)
-* Lag test: joybus mode, with the function checking the bridge's l flag to know if it should set L and analog L
-* 
-* Core 0 : lag test: wait for X + random(0, 1frame) then set L and analog L in the bridge; start the phototransistor reading then ; then start sending over USB
-*/
-
 uint32_t rnd(void){
     int k, random=0;
     volatile uint32_t *rnd_reg=(uint32_t *)(ROSC_BASE + ROSC_RANDOMBIT_OFFSET);
@@ -40,8 +32,8 @@ uint32_t rnd(void){
 
 #define EMULATE_PLAYER_BEHAVIOUR 0
 
-#define DASHES 1
-#define JUMP_ATTACK 0
+#define DASHES 0
+#define JUMP_ATTACK 1
 
 #if EMULATE_PLAYER_BEHAVIOUR
 /* The test will iterate over the 1/sweepingPeriod splits of the distribution and pick a random position in that window (variance reduction)
@@ -228,5 +220,3 @@ int main() {
 
     local_main();
 }
-
-// *1.0000201) Test *1.00001 because we get more hits than ACs
